@@ -2,68 +2,65 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Đèn Kéo Quân - Bài 33</title>
+    <title>Đèn Kéo Quân 3D - Tran Phuoc Vinh</title>
     <style>
-        body { font-family: sans-serif; background: #f0f0f0; text-align: center; }
-        /* Khung bên ngoài của đèn */
-        .den-keo-quan {
-            width: 500px; height: 350px;
-            margin: 50px auto;
-            border: 10px solid #8b0000; /* Màu đỏ sẫm như đèn lồng */
-            border-radius: 15px;
-            overflow: hidden;
-            background: white;
-            box-shadow: 0 0 20px rgba(0,0,0,0.3);
-            position: relative;
+        body { background: #222; color: white; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; overflow: hidden; }
+        
+        /* Khung nhìn 3D */
+        .stage { width: 300px; height: 300px; perspective: 1000px; }
+
+        /* Khối lập phương */
+        .cube {
+            width: 100%; height: 100%;
+            position: absolute;
+            transform-style: preserve-3d;
+            transition: transform 1s;
+            animation: xoay3D 10s infinite linear;
         }
-        /* Dải ảnh chứa 6 tấm */
-        .container-anh {
-            display: flex;
-            width: 3000px; /* 6 ảnh x 500px */
-            transition: transform 0.5s linear;
+
+        /* Khi rê chuột vào thì dừng xoay */
+        .cube:hover { animation-play-state: paused; }
+
+        .cube div {
+            position: absolute; width: 300px; height: 300px;
+            border: 2px solid #ccc; opacity: 0.9;
         }
-        .container-anh img {
-            width: 500px; height: 350px;
-            object-fit: cover;
+
+        .cube img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Vị trí 6 mặt của khối lập phương */
+        .face1 { transform: translateZ(150px); }
+        .face2 { transform: rotateY(90px) translateZ(150px); }
+        .face3 { transform: rotateY(180px) translateZ(150px); }
+        .face4 { transform: rotateY(-90px) translateZ(150px); }
+        .face5 { transform: rotateX(90px) translateZ(150px); }
+        .face6 { transform: rotateX(-90px) translateZ(150px); }
+
+        @keyframes xoay3D {
+            from { transform: rotateY(0deg) rotateX(0deg); }
+            to { transform: rotateY(360deg) rotateX(360deg); }
         }
+
+        .back-link { margin-top: 50px; color: yellow; text-decoration: none; font-weight: bold; }
     </style>
 </head>
 <body>
-    <h1>Hiệu ứng Đèn Kéo Quân 3D</h1>
-    <p>Rê chuột vào để dừng, bỏ ra để chạy tiếp</p>
 
-    <div class="den-keo-quan" onmouseover="dung()" onmouseout="chay()">
-        <div class="container-anh" id="khoi-anh">
-            <img src="images/img1.jpg">
-            <img src="images/img2.jpg">
-            <img src="images/img3.jpg">
-            <img src="images/img4.jpg">
-            <img src="images/img5.jpg">
-            <img src="images/img6.jpg">
+    <h1>Hiệu ứng Đèn Kéo Quân 3D</h1>
+    <p>Rê chuột vào khối để dừng xoay</p>
+
+    <div class="stage">
+        <div class="cube" id="cube">
+            <div class="face1"><img src="images/img1.jpg"></div>
+            <div class="face2"><img src="images/img2.jpg"></div>
+            <div class="face3"><img src="images/img3.jpg"></div>
+            <div class="face4"><img src="images/img4.jpg"></div>
+            <div class="face5"><img src="images/img5.jpg"></div>
+            <div class="face6"><img src="images/img6.jpg"></div>
         </div>
     </div>
 
-    <br>
-    <a href="index.html" style="text-decoration: none; color: #8b0000; font-weight: bold;">← Quay lại Portfolio</a>
+    <a href="index.html" class="back-link">← Quay lại Portfolio</a>
 
-    <script>
-        let vitri = 0;
-        let thoiGian;
-        const khoiAnh = document.getElementById("khoi-anh");
-
-        function chay() {
-            thoiGian = setInterval(() => {
-                vitri++;
-                if (vitri > 5) vitri = 0; // Quay lại ảnh đầu tiên sau khi hết 6 ảnh
-                khoiAnh.style.transform = `translateX(${-vitri * 500}px)`;
-            }, 2000); // 2 giây đổi ảnh 1 lần
-        }
-
-        function dung() {
-            clearInterval(thoiGian);
-        }
-
-        chay(); // Tự động chạy khi mở trang
-    </script>
 </body>
 </html>
