@@ -2,17 +2,38 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Đèn Kéo Quân - Giữa Kỳ</title>
+    <title>Đèn Kéo Quân - Bài 33</title>
     <style>
-        .carousel-container { width: 400px; margin: 50px auto; overflow: hidden; border: 5px solid #333; position: relative; }
-        .carousel-slide { display: flex; transition: transform 0.5s ease-in-out; }
-        .carousel-slide img { width: 400px; height: 300px; object-fit: cover; }
+        body { font-family: sans-serif; background: #f0f0f0; text-align: center; }
+        /* Khung bên ngoài của đèn */
+        .den-keo-quan {
+            width: 500px; height: 350px;
+            margin: 50px auto;
+            border: 10px solid #8b0000; /* Màu đỏ sẫm như đèn lồng */
+            border-radius: 15px;
+            overflow: hidden;
+            background: white;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        /* Dải ảnh chứa 6 tấm */
+        .container-anh {
+            display: flex;
+            width: 3000px; /* 6 ảnh x 500px */
+            transition: transform 0.5s linear;
+        }
+        .container-anh img {
+            width: 500px; height: 350px;
+            object-fit: cover;
+        }
     </style>
 </head>
 <body>
-    <h2 style="text-align:center">Hiệu ứng Đèn Kéo Quân</h2>
-    <div class="carousel-container" onmouseover="stop()" onmouseout="start()">
-        <div class="carousel-slide" id="slide">
+    <h1>Hiệu ứng Đèn Kéo Quân 3D</h1>
+    <p>Rê chuột vào để dừng, bỏ ra để chạy tiếp</p>
+
+    <div class="den-keo-quan" onmouseover="dung()" onmouseout="chay()">
+        <div class="container-anh" id="khoi-anh">
             <img src="images/img1.jpg">
             <img src="images/img2.jpg">
             <img src="images/img3.jpg">
@@ -21,25 +42,28 @@
             <img src="images/img6.jpg">
         </div>
     </div>
-    <p style="text-align:center"><a href="index.html">Quay lại Portfolio</a></p>
+
+    <br>
+    <a href="index.html" style="text-decoration: none; color: #8b0000; font-weight: bold;">← Quay lại Portfolio</a>
 
     <script>
-        let index = 0;
-        let slide = document.getElementById("slide");
-        let timer;
+        let vitri = 0;
+        let thoiGian;
+        const khoiAnh = document.getElementById("khoi-anh");
 
-        function start() {
-            timer = setInterval(() => {
-                index = (index + 1) % 6;
-                slide.style.transform = `translateX(${-index * 400}px)`;
-            }, 2000); // Tốc độ quay: 2 giây
+        function chay() {
+            thoiGian = setInterval(() => {
+                vitri++;
+                if (vitri > 5) vitri = 0; // Quay lại ảnh đầu tiên sau khi hết 6 ảnh
+                khoiAnh.style.transform = `translateX(${-vitri * 500}px)`;
+            }, 2000); // 2 giây đổi ảnh 1 lần
         }
 
-        function stop() {
-            clearInterval(timer);
+        function dung() {
+            clearInterval(thoiGian);
         }
 
-        start(); // Bắt đầu chạy khi load trang
+        chay(); // Tự động chạy khi mở trang
     </script>
 </body>
 </html>
